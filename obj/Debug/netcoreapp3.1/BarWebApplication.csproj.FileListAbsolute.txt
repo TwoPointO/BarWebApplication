@@ -269,3 +269,4 @@ C:\Users\mcuri\OneDrive\Desktop\NewWebApp\BarWebApplication\obj\Debug\netcoreapp
 C:\Users\mcuri\OneDrive\Desktop\NewWebApp\BarWebApplication\obj\Debug\netcoreapp3.1\BarWebApplication.csproj.CoreCompileInputs.cache
 C:\Users\mcuri\OneDrive\Desktop\NewWebApp\BarWebApplication\obj\Debug\netcoreapp3.1\BarWebApplication.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\mcuri\OneDrive\Desktop\NewWebApp\BarWebApplication\obj\Debug\netcoreapp3.1\BarWebApplication.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\mcuri\OneDrive\Desktop\NewWebApp\BarWebApplication\bin\Debug\netcoreapp3.1\Properties\ServiceDependencies\BarWebApplication - Web Deploy\profile.arm.json
