@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="C:\Users\mcuri\OneDrive\Desktop\NewWebApp\BarWebApplication\obj\Release\netcoreapp3.1\PubTmp\Out\" />
+  <dbfullsql path="C:\Users\mcuri\OneDrive\Desktop\NewWebApp\BarWebApplication\obj\Release\netcoreapp3.1\PubTmp\EFSQLScripts\BarWebApplication.Areas.Identity.Data.IdentityContext.sql" />
+  <dbfullsql path="C:\Users\mcuri\OneDrive\Desktop\NewWebApp\BarWebApplication\obj\Release\netcoreapp3.1\PubTmp\EFSQLScripts\BarWebApplication.Models.WebAppContext.sql" />
+</sitemanifest>

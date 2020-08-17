@@ -1,0 +1,138 @@
+﻿@model BarWebApplication.Models.ItemOrder
+@using System.Text.Json
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Item> items = new List<Item>();
+    List<DailyDeal> dailies = new List<DailyDeal>();
+    if (ViewBag.items != null)
+    {
+        foreach (Item item in ViewBag.items)
+        {
+            items.Add(item);
+        }
+    }
+    if(ViewBag.dailies != null) {
+        foreach (DailyDeal item in ViewBag.dailies)
+        {
+            dailies.Add(item);
+        }
+    }
+}
+
+<h1>My Cart</h1>
+
+<hr />
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <section class="food_menu gray_bg">
+        <div class="container">
+            <div class="row">
+                @if (ViewBag.cart != null)
+                {
+                    @foreach (ItemOrder item in ViewBag.cart)
+                    {
+                        <div class="single_food_item media shadow menu_item menu_list col-md-6">
+                            <div class="menu-img">
+                                @if (items.Where(a => a.ItemId == item.Item).FirstOrDefault().ImageData != null)
+                                {
+                                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(items.Where(a => a.ItemId == item.Item).FirstOrDefault().ImageData)" />
+                                }
+                            </div>
+                            <div class="media-body align-self-center menu_item">
+                                <h3>
+                                    @items.Where(a => a.ItemId == item.Item).FirstOrDefault().ItemName
+                                </h3>
+                                <p>
+                                    @items.Where(a => a.ItemId == item.Item).FirstOrDefault().ItemDescription
+                                </p>
+                                <div>
+                                    <h5>
+                                        @items.Where(a => a.ItemId == item.Item).FirstOrDefault().Price,00 HRK x @item.Quantity
+                                    </h5>
+                                    <div>
+                                        <a class="btn btn-group-sm" asp-controller="Cart" asp-action="Add" asp-route-id="@item.Item"><h1><b>+</b></h1></a>
+                                        <a class="btn btn-group-sm" asp-controller="Cart" asp-action="Subtract" asp-route-id="@item.Item"><h1><b>-</b></h1></a>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div><br /><br />
+                    }
+                }
+                @if (ViewBag.dailies != null)
+                {
+                    @foreach (DailyDealOrder item in ViewBag.dcart)
+                    {
+                        <div class="single_food_item media shadow menu_item menu_list col-md-6">
+                            <div class="menu-img">
+                                @if (dailies.Where(a => a.DailyDealId == item.DailyDeal).FirstOrDefault().DailyDealImage != null)
+                                {
+                                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(dailies.Where(a => a.DailyDealId == item.DailyDeal).FirstOrDefault().DailyDealImage)" />
+                                }
+                            </div>
+                            <div class="media-body align-self-center menu_item">
+                                <h3>
+                                    @dailies.Where(a => a.DailyDealId == item.DailyDeal).FirstOrDefault().DailyDealName
+                                </h3>
+                                <p>
+                                    @dailies.Where(a => a.DailyDealId == item.DailyDeal).FirstOrDefault().DailyDealDescription
+                                </p>
+                                <div>
+                                    <h5>
+                                        @dailies.Where(a => a.DailyDealId == item.DailyDeal).FirstOrDefault().DailyDealPrice,00 HRK x @item.Quantity
+                                    </h5>
+                                    <div>
+                                        <a class="btn btn-group-sm" asp-controller="Cart" asp-action="dAdd" asp-route-id="@item.DailyDeal"><h1><b>+</b></h1></a>
+                                        <a class="btn btn-group-sm" asp-controller="Cart" asp-action="dSubtract" asp-route-id="@item.DailyDeal"><h1><b>-</b></h1></a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div><br /><br />
+                    }
+                }
+            </div>
+            <div class="row">
+                
+            </div>
+            <div>
+                <div><h4>Total</h4></div>
+                <div>
+                    <h5>
+                        @if(ViewBag.total == null)
+                        {
+                            ViewBag.total = 0;
+                        }
+                        @if(ViewBag.dtotal == null)
+                        {
+                            ViewBag.dtotal = 0;
+                        }
+                        @(ViewBag.total + ViewBag.dtotal),00 HRK
+                    </h5>
+                </div>
+            </div>
+                <form asp-controller="Cart" asp-action="Order" method="post">
+                    @*
+            <label>Enter Table Number</label>
+            <input type="number" name="table" />
+                    *@
+                    <input type="hidden" name="table" value="@(new Random().Next())" />
+                    <label>Enter Message(Optional)</label>
+                    <input type="text" name="message" />
+                    <input class="btn btn-outline-success" type="submit" value="Place Order" />
+                </form>
+        </div>
+        </section>
+            
+
+</body>
+</html>
+
+
+

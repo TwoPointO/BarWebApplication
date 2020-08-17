@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="mcuric1710-001-site1" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\mcuri\\OneDrive\\Desktop\\NewWebApp\\BarWebApplication\\obj\\Release\\netcoreapp3\.1\\PubTmp\\Out\\$" />
+  </parameter>
+  <parameter name="BarWebApplication.Areas.Identity.Data.IdentityContext" description="" value="&quot;Data Source=SQL5063.site4now.net;Initial Catalog=DB_A65326_barwebapplication;User Id=DB_A65326_barwebapplication_admin;Password=Thuglife1710" tags="dbfullsql">
+    <parameterEntry kind="ProviderPath" scope="dbfullsql" match="^C:\\Users\\mcuri\\OneDrive\\Desktop\\NewWebApp\\BarWebApplication\\obj\\Release\\netcoreapp3\.1\\PubTmp\\EFSQLScripts\\BarWebApplication\.Areas\.Identity\.Data\.IdentityContext\.sql$" />
+  </parameter>
+  <parameter name="BarWebApplication.Models.WebAppContext" description="" value="&quot;Data Source=SQL5063.site4now.net;Initial Catalog=DB_A65326_barwebapplication;User Id=DB_A65326_barwebapplication_admin;Password=Thuglife1710" tags="dbfullsql">
+    <parameterEntry kind="ProviderPath" scope="dbfullsql" match="^C:\\Users\\mcuri\\OneDrive\\Desktop\\NewWebApp\\BarWebApplication\\obj\\Release\\netcoreapp3\.1\\PubTmp\\EFSQLScripts\\BarWebApplication\.Models\.WebAppContext\.sql$" />
+  </parameter>
+</parameters>

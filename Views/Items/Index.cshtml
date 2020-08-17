@@ -1,0 +1,185 @@
+﻿@model ViewModel
+@using Microsoft.AspNetCore.Identity
+@using BarWebApplication.Controllers
+@using BarWebApplication.Areas.Identity.Data
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int filter = int.Parse(ViewData["CurrentFilter"].ToString());
+    var categories = ViewBag.categories;
+    var items = SessionExtensions.Get<List<ItemOrder>>(HttpContextAccessor.HttpContext.Session, "cart");
+    var dailies = SessionExtensions.Get<List<DailyDealOrder>>(HttpContextAccessor.HttpContext.Session, "dcart");
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <h1>Menu</h1>
+    <hr />
+}
+
+<!-- breadcrumb start-->
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb_iner text-center">
+                    <div class="breadcrumb_iner_item">
+                        <h2>Menu</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="food_menu gray_bg">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-3">
+                <div class="section_tittle">
+                    <p>Explore our</p>
+                    <h2>Menu</h2>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <nav class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <div class="collapse navbar-collapse main-menu-item justify-content-center" id="navbarSupportedContent">
+                            <ul class="navbar-nav">
+                                @foreach (Category item in categories)
+                                {
+                                    if (item.CategoryId == filter)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Items" asp-action="Index" asp-route-currentfilter="@item.CategoryId"><b>@item.Name</b></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Items" asp-action="Index" asp-route-currentfilter="@item.CategoryId">@item.Name</a>
+                                        </li>
+                                    }
+
+                                }
+                            </ul>
+                        </div>
+                    </nav>
+                </nav>
+            </div>
+        </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="single_blog_item">
+                            <div class="single_blog_text">
+                                @foreach (DailyDeal item in Model.DailyDeals)
+                                {
+                                    <h3>@item.DailyDealName</h3>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            @if (item.DailyDealImage != null)
+                                            {
+                                                <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.DailyDealImage)" />
+                                            }
+                                        </li>
+                                        <li>
+                                            @Html.DisplayFor(modelItem => item.DailyDealDescription)
+                                        </li>
+                                        <li></li>
+                                    </ul><br />
+                                    <h3>ONLY @item.DailyDealPrice,00 HRK</h3>
+                                    @if (!SignInManager.IsSignedIn(User))
+                                    {
+                                        if (SessionExtensions.Get<List<DailyDealOrder>>(HttpContextAccessor.HttpContext.Session, "dcart")?.Any() ?? false)
+                                        {
+                                            if (SessionExtensions.Get<List<DailyDealOrder>>(HttpContextAccessor.HttpContext.Session, "dcart").Where(a => a.DailyDeal == item.DailyDealId).FirstOrDefault() != null && SessionExtensions.Get<List<DailyDealOrder>>(HttpContextAccessor.HttpContext.Session, "dcart").Where(a => a.DailyDeal == item.DailyDealId).FirstOrDefault().Quantity > 0)
+                                            {
+                                                <a class="btn btn-group-sm myLink" asp-controller="Cart" asp-action="dAdd" asp-route-id="@item.DailyDealId"><h1><b>+</b></h1></a>
+                                                @dailies.Where(a => a.DailyDeal == item.DailyDealId).FirstOrDefault().Quantity
+                                                <a class="btn btn-group-sm myLink" asp-controller="Cart" asp-action="dSubtract" asp-route-id="@item.DailyDealId"><h1><b>-</b></h1></a>
+                                            }
+                                        }
+                                        <a asp-controller="Cart" asp-action="dAdd" asp-route-id="@item.DailyDealId" class="btn btn-outline-danger myLink">Add to Cart</a>
+                                    }
+                                    @if (SignInManager.IsSignedIn(User))
+                                    {
+                                        <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@item.DailyDealId">Edit</a>
+                                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.DailyDealId">Delete</a>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<br /><br />
+        <div class="row">
+            @foreach (var item in Model.Items)
+            {
+                @if (item.Available == true || (SignInManager.IsSignedIn(User) && item.ItemName != "NULL"))
+                {
+                    <div class="single_food_item media shadow menu_item menu_list col-md-6">
+                        <div class="menu-img">
+                            @if (item.ImageData != null)
+                            {
+                                <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.ImageData)" />
+                            }
+                        </div>
+                        <div class="media-body align-self-center menu_item">
+                            <h3>@Html.DisplayFor(modelItem => item.ItemName)</h3>
+                            <p>@Html.DisplayFor(modelItem => item.ItemDescription)</p>
+                            <h5>@Html.DisplayFor(modelItem => item.Price) HRK</h5>
+                        </div>
+                        <div class="media-body align-self-center menu_item">
+                            @if (!SignInManager.IsSignedIn(User))
+                            {
+                                if (SessionExtensions.Get<List<ItemOrder>>(HttpContextAccessor.HttpContext.Session, "cart")?.Any() ?? false)
+                                {
+                                    if (SessionExtensions.Get<List<ItemOrder>>(HttpContextAccessor.HttpContext.Session, "cart").Where(a => a.Item == item.ItemId).FirstOrDefault() != null && SessionExtensions.Get<List<ItemOrder>>(HttpContextAccessor.HttpContext.Session, "cart").Where(a => a.Item == item.ItemId).FirstOrDefault().Quantity > 0)
+                                    {
+                                        <a class="btn btn-group-sm myLink" asp-controller="Cart" asp-action="Add" asp-route-id="@item.ItemId"><h1><b>+</b></h1></a>
+                                        @items.Where(a => a.Item == item.ItemId).FirstOrDefault().Quantity
+                                        <a class="btn btn-group-sm myLink" asp-controller="Cart" asp-action="Subtract" asp-route-id="@item.ItemId"><h1><b>-</b></h1></a>
+                                    }
+                                }
+                                <a asp-controller="Cart" asp-action="Add" asp-route-id="@item.ItemId" class="btn btn-outline-danger myLink">Add to Cart</a>
+                            }
+
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <div class="admin-navbar float-md-right">
+                                    <div class="dropdown">
+                                        <i class="dropbtn nav-link fa fa-bars">                                          
+                                        </i>
+                                        <div class="dropdown-content">
+                                            <div class="nav-item">
+                                                @if (item.Available)
+                                                {
+                                                    <a class="nav-link myLink" asp-controller="Items" asp-action="Deactivate" asp-route-id="@item.ItemId">Deactivate</a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="nav-link myLink" asp-controller="Items" asp-action="Activate" asp-route-id="@item.ItemId">Activate</a>
+                                                }
+                                            </div>
+                                            <div class="nav-item">
+                                                <a class="nav-link" asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
+                                            </div>
+                                            <div class="nav-item">
+                                                <a class="nav-link" asp-action="Edit" asp-route-id="@item.ItemId">Edit</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>

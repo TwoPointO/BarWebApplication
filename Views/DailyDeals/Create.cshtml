@@ -1,0 +1,59 @@
+﻿@model BarWebApplication.Models.DailyDeal
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add a new daily deal</h1>
+
+<h4>DailyDeal</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DailyDealName" class="control-label"></label>
+                <input asp-for="DailyDealName" class="form-control" />
+                <span asp-validation-for="DailyDealName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyDealImage" class="control-label"></label>
+                <input type="file" asp-for="DailyDealImage" class="form-control" />
+                <span asp-validation-for="DailyDealImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyDealDescription" class="control-label"></label>
+                <input asp-for="DailyDealDescription" class="form-control" />
+                <span asp-validation-for="DailyDealDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyDealPrice" class="control-label"></label>
+                <input asp-for="DailyDealPrice" class="form-control" />
+                <span asp-validation-for="DailyDealPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyDealQuantity" class="control-label"></label>
+                <input asp-for="DailyDealQuantity" class="form-control" />
+                <span asp-validation-for="DailyDealQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyDealDate" class="control-label"></label>
+                <input asp-for="DailyDealDate" class="form-control" />
+                <span asp-validation-for="DailyDealDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

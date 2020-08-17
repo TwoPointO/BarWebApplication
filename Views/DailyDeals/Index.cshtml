@@ -1,0 +1,65 @@
+﻿@model IEnumerable<BarWebApplication.Models.DailyDeal>
+@using Microsoft.AspNetCore.Identity
+@using BarWebApplication.Areas.Identity.Data
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var dailies = SessionExtensions.Get<List<DailyDealOrder>>(HttpContextAccessor.HttpContext.Session, "dcart");
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <h1>Daily Deals</h1>
+    <hr />
+}
+
+<section class="exclusive_item_part blog_item_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-lg-4">
+                <div class="single_blog_item">
+                    <div class="single_blog_text">
+                        @foreach (var item in Model)
+                        {
+                            <h3>@item.DailyDealName</h3>
+                            <ul class="list-unstyled">
+                                <li>
+                                    @if (item.DailyDealImage != null)
+                                    {
+                                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.DailyDealImage)" />
+                                    }
+                                </li>
+                                <li>
+                                    @Html.DisplayFor(modelItem => item.DailyDealDescription)
+                                </li>
+                                <li></li>
+                            </ul><br />
+                            <h3>ONLY @item.DailyDealPrice,00 HRK</h3>
+                            @if (!SignInManager.IsSignedIn(User))
+                            {
+                                if (SessionExtensions.Get<List<DailyDealOrder>>(HttpContextAccessor.HttpContext.Session, "dcart")?.Any() ?? false)
+                                {
+                                    if (SessionExtensions.Get<List<DailyDealOrder>>(HttpContextAccessor.HttpContext.Session, "dcart").Where(a => a.DailyDeal == item.DailyDealId).FirstOrDefault() != null && SessionExtensions.Get<List<DailyDealOrder>>(HttpContextAccessor.HttpContext.Session, "dcart").Where(a => a.DailyDeal == item.DailyDealId).FirstOrDefault().Quantity > 0)
+                                    {
+                                        <a class="btn btn-group-sm myLink" asp-controller="Cart" asp-action="dAdd" asp-route-id="@item.DailyDealId"><h1><b>+</b></h1></a>
+                                        @dailies.Where(a => a.DailyDeal == item.DailyDealId).FirstOrDefault().Quantity
+                                        <a class="btn btn-group-sm myLink" asp-controller="Cart" asp-action="dSubtract" asp-route-id="@item.DailyDealId"><h1><b>-</b></h1></a>
+                                    }
+                                }
+                                <a asp-controller="Cart" asp-action="dAdd" asp-route-id="@item.DailyDealId" class="btn btn-outline-danger myLink">Add to Cart</a>
+                            }
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@item.DailyDealId">Edit</a>
+                                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.DailyDealId">Delete</a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAcIR12nheBEGW8SMZpIilDwAAAAACAAAAAAAQZgAAAAEAACAAAACUNJ4j2y8t12KYSARg0tett38GWwXh4HcGYqZZSekQYQAAAAAOgAAAAAIAACAAAAAsg+xMvcl2FSCe/JlIJeLeIXA5ImTbw3xrEEIC6pOwjyAAAACEY/wSbsMJ9uKEbaiW82D0CuG5NgPY6g+BGMRT1R08vUAAAADXhvh3QxsLw4G31gWP+pTLYlz89gyqR091t0krEvFtpwzHnoMCqlpUeJmpnM2hr22S0REhL4V4zM3XHitUXwfB</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <EFMigrations Include="BarWebApplication.Areas.Identity.Data.IdentityContext">
+      <Value>Data Source=SQL5052.site4now.net%3bInitial Catalog=DB_A65326_barwebapplication%3bUser Id=DB_A65326_barwebapplication_admin%3bPassword=Thuglife1710%3b</Value>
+    </EFMigrations>
+    <EFMigrations Include="BarWebApplication.Models.WebAppContext">
+      <Value>Data Source=SQL5052.site4now.net%3bInitial Catalog=DB_A65326_barwebapplication%3bUser Id=DB_A65326_barwebapplication_admin%3bPassword=Thuglife1710%3b</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

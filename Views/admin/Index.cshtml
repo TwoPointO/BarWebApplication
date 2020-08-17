@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BarWebApplication.Areas.Identity.Data
+@using BarWebApplication.Controllers
+@using BarWebApplication.Models
+@using BarWebApplication.Areas.Identity.Pages
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <a class="btn btn-outline-danger" id="register" asp-area="Identity" asp-page="/Account/Register">Add Another User (Register)</a>
+}
+else
+{
+<a class="btn btn-outline-info" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+}
+
